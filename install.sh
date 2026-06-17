@@ -70,13 +70,21 @@ detect_arch() {
 
 # ── Fetch latest version tag ─────────────────
 fetch_latest_version() {
-  if command -v curl > /dev/null 2>&1; then
-    # /releases?per_page=1 returns newest release including pre-releases
-    curl -fsSL "$GITHUB_API" 2>/dev/null | grep '"tag_name"' | head -1 | sed 's/.*"tag_name": *"\([^"]*\)".*/\1/'
-  else
+  if ! command -v curl > /dev/null 2>&1; then
     print_error "curl is required but not installed."
     exit 1
   fi
+
+  RESP=$(curl -fsSL "$GITHUB_API" 2>/dev/null)
+
+  # Try python3 first (more reliable JSON parsing)
+  if command -v python3 > /dev/null 2>&1; then
+    echo "$RESP" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d[0]['tag_name'])" 2>/dev/null
+    return
+  fi
+
+  # Fallback: grep + sed
+  echo "$RESP" | grep '"tag_name"' | head -1 | sed 's/.*"tag_name": *"\([^"]*\)".*/\1/'
 }
 
 # ── Download binary ───────────────────────────
