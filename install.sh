@@ -9,7 +9,7 @@ set -e
 BINARY="fide"
 REPO="oracommand/fide"
 INSTALL_DIR="/usr/local/bin"
-GITHUB_API="https://api.github.com/repos/${REPO}/releases/latest"
+GITHUB_API="https://api.github.com/repos/${REPO}/releases?per_page=1"
 
 # ── Colours ──────────────────────────────────
 if [ -t 1 ]; then
@@ -71,7 +71,8 @@ detect_arch() {
 # ── Fetch latest version tag ─────────────────
 fetch_latest_version() {
   if command -v curl > /dev/null 2>&1; then
-    curl -fsSL "$GITHUB_API" 2>/dev/null | grep '"tag_name"' | sed 's/.*"tag_name": *"\([^"]*\)".*/\1/'
+    # /releases?per_page=1 returns newest release including pre-releases
+    curl -fsSL "$GITHUB_API" 2>/dev/null | grep '"tag_name"' | head -1 | sed 's/.*"tag_name": *"\([^"]*\)".*/\1/'
   else
     print_error "curl is required but not installed."
     exit 1
