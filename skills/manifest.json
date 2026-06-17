@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "skills": {
+    "/watchlist": "https://raw.githubusercontent.com/oracommand/fide/master/skills/watchlist.txt",
+    "/klick":     "https://raw.githubusercontent.com/oracommand/fide/master/skills/klick.txt",
+    "/backtest":  "https://raw.githubusercontent.com/oracommand/fide/master/skills/backtest.txt",
+    "/chart":     "https://raw.githubusercontent.com/oracommand/fide/master/skills/chart.txt",
+    "/risk":      "https://raw.githubusercontent.com/oracommand/fide/master/skills/risk.txt",
+    "/new":       "https://raw.githubusercontent.com/oracommand/fide/master/skills/new_project.txt",
+    "/screen":    "https://raw.githubusercontent.com/oracommand/fide/master/skills/screener.txt"
+  }
+}
